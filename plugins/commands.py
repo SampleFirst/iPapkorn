@@ -72,7 +72,7 @@ async def start(client, message):
             ],
              [
                 InlineKeyboardButton(
-                    "📢 iPapkornUpdate 📢", url='https://t.me/iPapkornUpdate'
+                    "📢 Invisible Update📢", url='https://www.youtube.com/@PrashantUbaleVlogs'
                 )
             ],
              [
