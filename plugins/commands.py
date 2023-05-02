@@ -77,7 +77,7 @@ async def start(client, message):
             ],
              [
                 InlineKeyboardButton(
-                    "📢 iPapkornBots 📢", url='https://t.me/iPepkornBots'
+                    "📢 iPapkornBots 📢", url=invite_link.invite_link
                 )
             ]
         ]
