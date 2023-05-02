@@ -69,16 +69,6 @@ async def start(client, message):
                 InlineKeyboardButton(
                     "🤖 Join Updates Channel", url=invite_link.invite_link
                 )
-            ],
-             [
-                InlineKeyboardButton(
-                    "📢 Invisible Update📢", url=https://www.youtube.com/@PrashantUbaleVlogs
-                )
-            ],
-             [
-                InlineKeyboardButton(
-                    "📢 iPapkornBots 📢", url=https://t.me/iPepkornBots
-                )
             ]
         ]
 
