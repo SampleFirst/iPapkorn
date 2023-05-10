@@ -71,10 +71,6 @@ async def start(client, message):
                 InlineKeyboardButton(
                     "🤖 Join Updates Channel", url=invite_link.invite_link
                 )
-            ],[
-                InlineKeyboardButton(
-                    "🔥 SUBSCRIBE YT Channel 🔥", url="https://youtube.com/@InvisibleYTV"
-                )
             ]
         ]
 
