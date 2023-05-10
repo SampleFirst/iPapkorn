@@ -8,7 +8,7 @@ from pyrogram.errors import ChatAdminRequired, FloodWait
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database.ia_filterdb import Media, get_file_details, unpack_new_file_id
 from database.users_chats_db import db
-from info import CHANNELS, ADMINS, AUTH_CHANNEL, LOG_CHANNEL, PICS, BATCH_FILE_CAPTION, CUSTOM_FILE_CAPTION, PROTECT_CONTENT, START_MESSAGE, FORCE_SUB_TEXT, SUPPORT_CHAT
+from info import CHANNELS, ADMINS, AUTH_CHANNEL_1, AUTH_CHANNEL_2, LOG_CHANNEL, PICS, BATCH_FILE_CAPTION, CUSTOM_FILE_CAPTION, PROTECT_CONTENT, START_MESSAGE, FORCE_SUB_TEXT, SUPPORT_CHAT
 from utils import get_settings, get_size, is_subscribed, save_group_settings, temp
 from database.connections_mdb import active_connection
 import re
@@ -60,16 +60,25 @@ async def start(client, message):
             parse_mode=enums.ParseMode.HTML
         )
         return
-    if AUTH_CHANNEL and not await is_subscribed(client, message):
+    if AUTH_CHANNEL_1 and not await is_subscribed(client, message, AUTH_CHANNEL_1) and AUTH_CHANNEL_2 and not await is_subscribed(client, message, AUTH_CHANNEL_2):
         try:
-            invite_link = await client.create_chat_invite_link(int(AUTH_CHANNEL))
+            invite_link_1 = await client.create_chat_invite_link(int(AUTH_CHANNEL_1))
+            invite_link_2 = await client.create_chat_invite_link(int(AUTH_CHANNEL_2))
         except ChatAdminRequired:
-            logger.error("Make sure Bot is admin in Forcesub channel")
+            logger.error("Make sure Bot is admin in Forcesub channels")
             return
         btn = [
             [
                 InlineKeyboardButton(
-                    "🤖 Join Updates Channel", url=invite_link.invite_link
+                    "✨ 𝙹𝙾𝙸𝙽 𝚄𝙿𝙳𝙰𝚃𝙴𝚂 𝙲𝙷𝙰𝙽𝙽𝙴𝙻 ✨", url=invite_link_1.invite_link
+                )
+            ],[
+                InlineKeyboardButton(
+                    "🤖 𝙹𝙾𝙸𝙽 𝙱𝙾𝚃 𝙲𝙷𝙰𝙽𝙽𝙴𝙻 🤖", url=invite_link_2.invite_link
+                )
+            ],[
+                InlineKeyboardButton(
+                    "🔥 𝙹𝙾𝙸𝙽 𝚈𝙾𝚄𝚃𝚄𝙱𝙴 𝙲𝙷𝙰𝙽𝙽𝙴𝙻 🔥", url='https://youtube.com/@InvisibleYTV'
                 )
             ]
         ]
