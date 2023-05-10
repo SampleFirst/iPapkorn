@@ -73,10 +73,6 @@ async def start(client, message):
                 )
             ],[
                 InlineKeyboardButton(
-                    "🤖 Join Updates Channel", url=f"https://t.me/iPepkornBots"
-                )
-            ],[
-                InlineKeyboardButton(
                     "🔥 SUBSCRIBE YT Channel 🔥", url="https://youtube.com/@InvisibleYTV"
                 )
             ]
