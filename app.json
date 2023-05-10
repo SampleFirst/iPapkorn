@@ -1,7 +1,7 @@
 {
     "name": "PROFESSOR-BOT",
     "description": "the telegram Autofilter bot",
-    "logo": "https://graph.org/file/b7e8484f6395a180b6380.jpg",
+    "logo": "https://graph.org/file/d421408cedb2b8c0a0ab0.jpg",
     "keywords": ["telegram", "auto-filter"],
     "stack": "container",
     "website": "https://github.com/MrMKN/PROFESSOR-BOT",
