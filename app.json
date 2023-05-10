@@ -47,7 +47,11 @@
             "description": "Bot Logs,Give a channel id with -100xxxxxxx",
             "required": true                              
         },
-        "AUTH_CHANNEL": {
+        "AUTH_CHANNEL_1": {
+            "description": "ID of channel.Make sure bot is admin in this channel. Without subscribing this channel users cannot use bot.",
+            "required": false
+        },           
+        "AUTH_CHANNEL_2": {
             "description": "ID of channel.Make sure bot is admin in this channel. Without subscribing this channel users cannot use bot.",
             "required": false
         },           
