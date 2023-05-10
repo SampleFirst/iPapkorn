@@ -45,7 +45,9 @@ async def start(client, message):
             ],[      
             InlineKeyboardButton("ℹ️ 𝙷𝙴𝙻𝙿 ℹ️", callback_data="help"),
             InlineKeyboardButton("💫 𝙰𝙱𝙾𝚄𝚃 💫", callback_data="about")
-        ]]
+        ],[
+            InlineKeyboardButton("🔥 𝙹𝙾𝙸𝙽 𝚃𝙾 𝚈𝙾𝚄𝚃𝚄𝙱𝙴 🔥", url="https://youtube.com/@InvisibleYTV")
+            ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_chat_action(enums.ChatAction.TYPING)
         m=await message.reply_sticker("CAACAgUAAxkBAAIFNGJSlfOErbkSeLt9SnOniU-58UUBAAKaAAPIlGQULGXh4VzvJWoeBA")
@@ -68,6 +70,14 @@ async def start(client, message):
             [
                 InlineKeyboardButton(
                     "🤖 Join Updates Channel", url=invite_link.invite_link
+                )
+            ],[
+                InlineKeyboardButton(
+                    "🤖 Join Updates Channel", url=invite_link.invite_link
+                )
+            ],[
+                InlineKeyboardButton(
+                    "🔥 SUBSCRIBE YT Channel 🔥", url='https://youtube.com/@InvisibleYTV'
                 )
             ]
         ]
@@ -95,7 +105,9 @@ async def start(client, message):
             ],[      
             InlineKeyboardButton("ℹ️ 𝙷𝙴𝙻𝙿 ℹ️", callback_data="help"),
             InlineKeyboardButton("💫 𝙰𝙱𝙾𝚄𝚃 💫", callback_data="about")
-        ]]
+        ],[
+            InlineKeyboardButton("🔥 𝙹𝙾𝙸𝙽 𝚃𝙾 𝚈𝙾𝚄𝚃𝚄𝙱𝙴 🔥", url="https://youtube.com/@InvisibleYTV")
+            ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_chat_action(enums.ChatAction.TYPING)
         m=await message.reply_sticker("CAACAgUAAxkBAAIFNGJSlfOErbkSeLt9SnOniU-58UUBAAKaAAPIlGQULGXh4VzvJWoeBA")
