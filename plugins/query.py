@@ -609,7 +609,9 @@ async def cb_handler(client: Client, query: CallbackQuery):
             ],[      
             InlineKeyboardButton("ℹ️ 𝙷𝙴𝙻𝙿 ℹ️", callback_data="help"),
             InlineKeyboardButton("💫 𝙰𝙱𝙾𝚄𝚃 💫", callback_data="about")
-        ]]
+        ],[
+            InlineKeyboardButton("🔥 𝙹𝙾𝙸𝙽 𝚃𝙾 𝚈𝙾𝚄𝚃𝚄𝙱𝙴 🔥", url="https://youtube.com/@InvisibleYTV")
+            ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.edit_message_media(
             InputMediaPhoto(random.choice(PICS), START_MESSAGE.format(user=query.from_user.mention, bot=temp.B_LINK), enums.ParseMode.HTML),
