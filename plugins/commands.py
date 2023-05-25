@@ -41,7 +41,7 @@ async def start(client, message):
             InlineKeyboardButton('➕️ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘs ➕️', url=f'http://t.me/{temp.U_NAME}?startgroup=true')
         ], [
             InlineKeyboardButton('🔍 sᴇᴀʀᴄʜ', switch_inline_query_current_chat=''),
-            InlineKeyboardButton('📢 ᴜᴘᴅᴀᴛᴇ', url='https://t.me/iPapkornUpdate')
+            InlineKeyboardButton('🤖 More Bots', url='https://t.me/+9Z1w2KOebaliYzdl')
         ], [
             InlineKeyboardButton('ℹ️ ʜᴇʟᴘ', callback_data='help'),
             InlineKeyboardButton('😊 ᴀʙᴏᴜᴛ', callback_data='about')
@@ -97,7 +97,7 @@ async def start(client, message):
             InlineKeyboardButton('➕️ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘs ➕️', url=f'http://t.me/{temp.U_NAME}?startgroup=true')
         ], [
             InlineKeyboardButton('🔍 sᴇᴀʀᴄʜ', switch_inline_query_current_chat=''),
-            InlineKeyboardButton('📢 ᴜᴘᴅᴀᴛᴇ', url='https://t.me/iPapkornUpdate')
+            InlineKeyboardButton('🤖 More Bots', url='https://t.me/+9Z1w2KOebaliYzdl')
         ], [
             InlineKeyboardButton('ℹ️ ʜᴇʟᴘ', callback_data='help'),
             InlineKeyboardButton('😊 ᴀʙᴏᴜᴛ', callback_data='about')
