@@ -602,15 +602,15 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
     elif query.data == "start":                        
         buttons = [[
-            InlineKeyboardButton("🤖 𝙹𝙾𝙸𝙽 𝙼𝙾𝚁𝙴 𝙱𝙾𝚃𝚂 🤖", url="https://t.me/iPepkornBots")
-            ],[
-            InlineKeyboardButton("🔍 𝚂𝙴𝙰𝚁𝙲𝙷 🔍", switch_inline_query_current_chat=''), 
-            InlineKeyboardButton("📢 𝚄𝙿𝙳𝙰𝚃𝙴𝚂 📢", url="https://t.me/iPapkornUpdate")
-            ],[      
-            InlineKeyboardButton("ℹ️ 𝙷𝙴𝙻𝙿 ℹ️", callback_data="help"),
-            InlineKeyboardButton("💫 𝙰𝙱𝙾𝚄𝚃 💫", callback_data="about")
-        ],[
-            InlineKeyboardButton("🔥 𝙹𝙾𝙸𝙽 𝚃𝙾 𝚈𝙾𝚄𝚃𝚄𝙱𝙴 🔥", url="https://youtube.com/@InvisibleYTV")
+            InlineKeyboardButton('➕️ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘs ➕️', url=f'http://t.me/{temp.U_NAME}?startgroup=true')
+        ], [
+            InlineKeyboardButton('🔍 sᴇᴀʀᴄʜ', switch_inline_query_current_chat=''),
+            InlineKeyboardButton('🤖 ᴍᴏʀᴇ ʙᴏᴛs', url='https://t.me/+9Z1w2KOebaliYzdl')
+        ], [
+            InlineKeyboardButton('ℹ️ ʜᴇʟᴘ', callback_data='help'),
+            InlineKeyboardButton('😊 ᴀʙᴏᴜᴛ', callback_data='about')
+         ],[
+            InlineKeyboardButton("🔥 ᴊᴏɪɴ ᴡɪᴛʜ ʏᴏᴜᴛᴜʙᴇ 🔥", url="https://youtube.com/@InvisibleYTV")
             ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.edit_message_media(
