@@ -47,7 +47,7 @@ async def start(client, message):
             InlineKeyboardButton('😊 ᴀʙᴏᴜᴛ', callback_data='about')
         ],[
             InlineKeyboardButton('🔥 ᴊᴏɪɴ ᴡɪᴛʜ ʏᴏᴜᴛᴜʙᴇ 🔥', url='https://youtube.com/@InvisibleYTV')
-        ]
+        ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_chat_action(enums.ChatAction.TYPING)
         m=await message.reply_sticker("CAACAgUAAxkBAAIFNGJSlfOErbkSeLt9SnOniU-58UUBAAKaAAPIlGQULGXh4VzvJWoeBA")
@@ -99,7 +99,7 @@ async def start(client, message):
             InlineKeyboardButton('😊 ᴀʙᴏᴜᴛ', callback_data='about')
         ],[
             InlineKeyboardButton('🔥 ᴊᴏɪɴ ᴡɪᴛʜ ʏᴏᴜᴛᴜʙᴇ 🔥', url='https://youtube.com/@InvisibleYTV')
-        ]
+        ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_chat_action(enums.ChatAction.TYPING)
         m=await message.reply_sticker("CAACAgUAAxkBAAIFNGJSlfOErbkSeLt9SnOniU-58UUBAAKaAAPIlGQULGXh4VzvJWoeBA")
