@@ -290,6 +290,159 @@ async def channel_info(bot, message):
         await message.reply_document(file)
         os.remove(file)
 
+@Client.on_message(filters.command('findfiles') & filters.user(ADMINS))
+async def find_files(client, message):
+    """Find files in the database based on search criteria"""
+    search_query = " ".join(message.command[1:])  # Extract the search query from the command
+
+    if not search_query:
+        return await message.reply('✨ Please provide a name.\n\nExample: /findfiles Kantara.', quote=True)
+
+    # Build the MongoDB query to search for files
+    query = {
+        'file_name': {"$regex": f".*{re.escape(search_query)}.*", "$options": "i"}
+    }
+
+    # Fetch the matching files from the database
+    results = await Media.collection.find(query).to_list(length=None)
+
+    if len(results) > 0:
+        # Sort results alphabetically by file name
+        results.sort(key=lambda x: x['file_name'])
+
+        confirmation_message = f'✨ {len(results)} files found matching the search query "{search_query}" in the database:\n\n'
+        starting_query = {
+            'file_name': {"$regex": f"^{re.escape(search_query)}", "$options": "i"}
+        }
+        starting_results = await Media.collection.find(starting_query).to_list(length=None)
+
+        starting_results.sort(key=lambda x: x['file_name'])
+
+        confirmation_message += f'✨ {len(starting_results)} files found starting with "{search_query}" in the database.\n\n'
+        confirmation_message += '✨ Please select the option for easier searching:'
+
+        keyboard = InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton("🌟 Find Related Name Files", callback_data=f"related_files:1:{search_query}")
+                ],
+                [
+                    InlineKeyboardButton("🌟 Find Starting Name Files", callback_data=f"starting_files:1:{search_query}")
+                ],
+                [
+                    InlineKeyboardButton("❌ Cancel", callback_data="cancel")
+                ]
+            ]
+        )
+
+        await message.reply_text(confirmation_message, reply_markup=keyboard)
+    else:
+        await message.reply_text(f'😎 No files found matching the search query "{search_query}" in the database')
+
+
+@Client.on_callback_query(filters.regex('^related_files'))
+async def find_related_files(client, callback_query):
+    data = callback_query.data.split(":")
+    page = int(data[1])
+    search_query = data[2]
+    query = {
+        'file_name': {"$regex": f".*{re.escape(search_query)}.*", "$options": "i"}
+    }
+    results = await Media.collection.find(query).to_list(length=None)
+
+    total_results = len(results)
+    num_pages = total_results // RESULTS_PER_PAGE + 1
+
+    # Sort results alphabetically by file name
+    results.sort(key=lambda x: x['file_name'])
+
+    start_index = (page - 1) * RESULTS_PER_PAGE
+    end_index = start_index + RESULTS_PER_PAGE
+    current_results = results[start_index:end_index]
+
+    result_message = f'{len(current_results)} files found with related names to "{search_query}" in the database:\n\n'
+    for result in current_results:
+        file_size = format_file_size(result['file_size'])
+        result_message += f'File Name: {result["file_name"]}\n'
+        result_message += f'File Size: {file_size}\n\n'
+
+    buttons = []
+
+    if page > 1:
+        buttons.append(InlineKeyboardButton("⬅️ Back", callback_data=f"related_files:{page - 1}:{search_query}"))
+
+    if page < num_pages:
+        buttons.append(InlineKeyboardButton("Next ➡️", callback
+
+_data=f"related_files:{page + 1}:{search_query}"))
+
+    buttons.append(InlineKeyboardButton("🔚 Cancel", callback_data="cancel_find"))
+
+    # Create button groups with two buttons each
+    button_groups = [buttons[i:i + 2] for i in range(0, len(buttons), 2)]
+    keyboard = InlineKeyboardMarkup(button_groups)
+
+    await callback_query.message.edit_text(result_message, reply_markup=keyboard)
+    await callback_query.answer()
+
+
+@Client.on_callback_query(filters.regex('^starting_files'))
+async def find_starting_files(client, callback_query):
+    data = callback_query.data.split(":")
+    page = int(data[1])
+    search_query = data[2]
+    query = {
+        'file_name': {"$regex": f"^{re.escape(search_query)}", "$options": "i"}
+    }
+    results = await Media.collection.find(query).to_list(length=None)
+
+    total_results = len(results)
+    num_pages = total_results // RESULTS_PER_PAGE + 1
+
+    # Sort results alphabetically by file name
+    results.sort(key=lambda x: x['file_name'])
+
+    start_index = (page - 1) * RESULTS_PER_PAGE
+    end_index = start_index + RESULTS_PER_PAGE
+    current_results = results[start_index:end_index]
+
+    result_message = f'{len(current_results)} files found with names starting "{search_query}" in the database:\n\n'
+    for result in current_results:
+        file_size = format_file_size(result['file_size'])
+        result_message += f'File Name: {result["file_name"]}\n'
+        result_message += f'File Size: {file_size}\n\n'
+
+    buttons = []
+
+    if page > 1:
+        buttons.append(InlineKeyboardButton("⬅️ Back", callback_data=f"starting_files:{page - 1}:{search_query}"))
+
+    if page < num_pages:
+        buttons.append(InlineKeyboardButton("Next ➡️", callback_data=f"starting_files:{page + 1}:{search_query}"))
+
+    buttons.append(InlineKeyboardButton("🔚 Cancel", callback_data="cancel_find"))
+
+    # Create button groups with two buttons each
+    button_groups = [buttons[i:i + 2] for i in range(0, len(buttons), 2)]
+    keyboard = InlineKeyboardMarkup(button_groups)
+
+    await callback_query.message.edit_text(result_message, reply_markup=keyboard)
+    await callback_query.answer()
+
+
+def format_file_size(size_in_bytes):
+    """Format file size in bytes to human-readable format (MB or GB)"""
+    size_in_mb = size_in_bytes / (1024 * 1024)
+    size_in_gb = size_in_bytes / (1024 * 1024 * 1024)
+
+    if size_in_gb >= 1:
+        return f'{size_in_gb:.2f} GB'
+    else:
+        return f'{size_in_mb:.2f} MB'
+
+
+
+                   
 @Client.on_message(filters.command("findpixels") & filters.user(ADMINS))
 async def find_pixels_command(bot, message):
     keyboard = InlineKeyboardMarkup(
