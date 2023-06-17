@@ -372,9 +372,7 @@ async def find_related_files(client, callback_query):
         buttons.append(InlineKeyboardButton("⬅️ Back", callback_data=f"related_files:{page - 1}:{search_query}"))
 
     if page < num_pages:
-        buttons.append(InlineKeyboardButton("Next ➡️", callback
-
-_data=f"related_files:{page + 1}:{search_query}"))
+        buttons.append(InlineKeyboardButton("Next ➡️", callback_data=f"related_files:{page + 1}:{search_query}"))
 
     buttons.append(InlineKeyboardButton("🔚 Cancel", callback_data="cancel_find"))
 
