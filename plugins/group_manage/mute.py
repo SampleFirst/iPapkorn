@@ -1,25 +1,32 @@
 from pyrogram import Client, filters
 from pyrogram.types import ChatPermissions
 from plugins.helper.admin_check import admin_check
-from plugins.helper.extract import extract_time, extract_user                               
+from plugins.helper.extract import extract_time, extract_user
 
 
-@Client.on_message(filters.command("mute"))
-async def mute_user(_, message):
-    is_admin = await admin_check(message)
+@Client.on_message(filters.command("mute") & filters.group)
+async def mute_user(client, message):
+    is_admin = await admin_check(client, message)
     if not is_admin:
         return
     user_id, user_first_name = extract_user(message)
     try:
-        await message.chat.restrict_member(
+        await client.restrict_chat_member(
+            chat_id=message.chat.id,
             user_id=user_id,
             permissions=ChatPermissions(
+                can_send_messages=False,
+                can_send_media_messages=False,
+                can_send_polls=False,
+                can_send_other_messages=False,
+                can_add_web_page_previews=False,
+                can_change_info=False,
+                can_invite_users=False,
+                can_pin_messages=False
             )
         )
     except Exception as error:
-        await message.reply_text(
-            str(error)
-        )
+        await message.reply_text(str(error))
     else:
         if str(user_id).lower().startswith("@"):
             await message.reply_text(
@@ -37,13 +44,13 @@ async def mute_user(_, message):
             )
 
 
-@Client.on_message(filters.command("tmute"))
-async def temp_mute_user(_, message):
-    is_admin = await admin_check(message)
+@Client.on_message(filters.command("tmute") & filters.group)
+async def temp_mute_user(client, message):
+    is_admin = await admin_check(client, message)
     if not is_admin:
         return
 
-    if not len(message.command) > 1:
+    if len(message.command) < 2:
         return
 
     user_id, user_first_name = extract_user(message)
@@ -53,7 +60,7 @@ async def temp_mute_user(_, message):
         await message.reply_text(
             (
                 "Invalid time type specified. "
-                "Expected m, h, or d, Got it: {}"
+                "Expected m, h, or d, but got: {}"
             ).format(
                 message.command[1][-1]
             )
@@ -61,16 +68,23 @@ async def temp_mute_user(_, message):
         return
 
     try:
-        await message.chat.restrict_member(
+        await client.restrict_chat_member(
+            chat_id=message.chat.id,
             user_id=user_id,
             permissions=ChatPermissions(
+                can_send_messages=False,
+                can_send_media_messages=False,
+                can_send_polls=False,
+                can_send_other_messages=False,
+                can_add_web_page_previews=False,
+                can_change_info=False,
+                can_invite_users=False,
+                can_pin_messages=False
             ),
             until_date=until_date_val
         )
     except Exception as error:
-        await message.reply_text(
-            str(error)
-        )
+        await message.reply_text(str(error))
     else:
         if str(user_id).lower().startswith("@"):
             await message.reply_text(
@@ -87,9 +101,3 @@ async def temp_mute_user(_, message):
                 " Mouth "
                 f" muted for {message.command[1]}!"
             )
-
-
-
-
-
-
