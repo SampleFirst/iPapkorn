@@ -160,10 +160,11 @@ these are the extra features of this bot
 By {f}
 """
     LOG_TEXT_P = """#𝐍𝐞𝐰𝐔𝐬𝐞𝐫
-    
+
 <b>᚛› 𝐈𝐃 - <code>{}</code></b>
 <b>᚛› 𝐍𝐚𝐦𝐞 - {}</b>
 <b>᚛› 𝐔𝐍 - @{}</b>
+<b>᚛› 𝐓𝐨𝐭𝐚𝐥 - {}</b>
 
 By @{} """
    
