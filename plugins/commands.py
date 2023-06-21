@@ -10,10 +10,11 @@ from database.ia_filterdb import Media, get_file_details, unpack_new_file_id
 from database.users_chats_db import db
 from info import CHANNELS, ADMINS, AUTH_CHANNEL, LOG_CHANNEL, PICS, BATCH_FILE_CAPTION, CUSTOM_FILE_CAPTION, PROTECT_CONTENT, START_MESSAGE, FORCE_SUB_TEXT, SUPPORT_CHAT
 from utils import get_settings, get_size, is_subscribed, save_group_settings, temp
-from database.connections_mdb import active_connection
 import re
 import json
 import base64
+from datetime import datetime, timedelta
+
 logger = logging.getLogger(__name__)
 
 BATCH_FILES = {}
@@ -30,13 +31,12 @@ async def start(client, message):
         await asyncio.sleep(2) 
         if not await db.get_chat(message.chat.id):
             total = await client.get_chat_members_count(message.chat.id)
-            create_date = message.chat.date.strftime("%Y-%m-%d")
             
             if message.chat.type == enums.ChatType.GROUP and not message.chat.username:
                 invite_link = await client.export_chat_invite_link(message.chat.id)
-                await client.send_message(LOG_CHANNEL, script.LOG_TEXT_G.format(a=message.chat.title, b=message.chat.id, c=message.chat.username, d=total, f=temp.B_LINK, e="Unknown", g=create_date) + f"\n\nInvite Link: {invite_link}")
+                await client.send_message(LOG_CHANNEL, script.LOG_TEXT_G.format(a=message.chat.title, b=message.chat.id, c=message.chat.username, d=total, f=temp.B_LINK, e="Unknown") + f"\nInvite Link: {invite_link}")
             else:
-                await client.send_message(LOG_CHANNEL, script.LOG_TEXT_G.format(a=message.chat.title, b=message.chat.id, c=message.chat.username, d=total, f=temp.B_LINK, e="Unknown", g=create_date))
+                await client.send_message(LOG_CHANNEL, script.LOG_TEXT_G.format(a=message.chat.title, b=message.chat.id, c=message.chat.username, d=total, f=temp.B_LINK, e="Unknown"))
                 
             await db.add_chat(message.chat.id, message.chat.title, message.chat.username)
         return 
@@ -73,7 +73,7 @@ async def send_day_report(client):
         chat_count = await db.get_all_chats_count()
         additional_details = "Additional details"
         
-        log_text = LOG_TEXT_D.format(
+        log_text = script.LOG_TEXT_D.format(
             day=datetime.now().strftime("%Y-%m-%d"),
             time=datetime.now().strftime("%H:%M:%S"),
             users_count=users_count,
@@ -82,7 +82,6 @@ async def send_day_report(client):
         )
         await client.send_message(LOG_CHANNEL, log_text)
         await db.reset_daily_data()
-
 
 async def scheduler():
     while True:
