@@ -13,7 +13,7 @@ from utils import get_settings, get_size, is_subscribed, save_group_settings, te
 import re
 import json
 import base64
-from datetime import datetime, timedelta
+
 
 logger = logging.getLogger(__name__)
 
@@ -28,21 +28,20 @@ async def start(client, message):
             InlineKeyboardButton('ℹ️ 𝙷𝙴𝙻𝙿 ℹ️', url=f"https://t.me/{temp.U_NAME}?start=help")
             ]]
         await message.reply(START_MESSAGE.format(user=message.from_user.mention if message.from_user else message.chat.title, bot=temp.B_LINK), reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=True)                    
-        await asyncio.sleep(2) 
+        await asyncio.sleep(2)
         if not await db.get_chat(message.chat.id):
             total = await client.get_chat_members_count(message.chat.id)
-            
+
             if message.chat.type == enums.ChatType.GROUP and not message.chat.username:
                 invite_link = await client.export_chat_invite_link(message.chat.id)
-                await client.send_message(LOG_CHANNEL, script.LOG_TEXT_G.format(a=message.chat.title, b=message.chat.id, c=message.chat.username, d=total, f=temp.B_LINK, e="Unknown") + f"\nInvite Link: {invite_link}")
-            else:
-                await client.send_message(LOG_CHANNEL, script.LOG_TEXT_G.format(a=message.chat.title, b=message.chat.id, c=message.chat.username, d=total, f=temp.B_LINK, e="Unknown"))
-                
+                await client.send_message(LOG_CHANNEL, script.LOG_TEXT_G.format(a=message.chat.title, b=message.chat.id, c=message.chat.username, d=total, f=temp.B_LINK, e="Unknown", h=invite_link))
+
             await db.add_chat(message.chat.id, message.chat.title, message.chat.username)
-        return 
+        return
     if not await db.is_user_exist(message.from_user.id):
         await db.add_user(message.from_user.id, message.from_user.first_name)
-        await client.send_message(LOG_CHANNEL, script.LOG_TEXT_P.format(message.from_user.id, message.from_user.mention, message.from_user.username, await db.total_users_count(), temp.U_NAME))
+        await client.send_message(LOG_CHANNEL, script.LOG_TEXT_P.format(message.from_user.id, message.from_user.mention, message.from_user.username, await db.total_users_count(),
+temp.U_NAME))
     if len(message.command) != 2:
         buttons = [[
             InlineKeyboardButton('➕️ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘs ➕️', url=f'http://t.me/{temp.U_NAME}?startgroup=true')
@@ -66,30 +65,6 @@ async def start(client, message):
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
-
-async def send_day_report(client):
-    if await db.get_all_users_count() > 0:
-        users_count = await db.get_all_users_count()
-        chat_count = await db.get_all_chats_count()
-        additional_details = "Additional details"
-        
-        log_text = script.LOG_TEXT_D.format(
-            day=datetime.now().strftime("%Y-%m-%d"),
-            time=datetime.now().strftime("%H:%M:%S"),
-            users_count=users_count,
-            chat_count=chat_count,
-            bot_link=temp.B_LINK
-        )
-        await client.send_message(LOG_CHANNEL, log_text)
-        await db.reset_daily_data()
-
-async def scheduler():
-    while True:
-        now = datetime.now()
-        next_day = now.replace(hour=0, minute=0, second=0) + timedelta(days=1)
-        delay = (next_day - now).total_seconds()
-        await asyncio.sleep(delay)
-        await send_day_report(client)
         
         return
     if AUTH_CHANNEL and not await is_subscribed(client, message):
