@@ -33,8 +33,7 @@ async def start(client, message):
             total = await client.get_chat_members_count(message.chat.id)
 
             if message.chat.type == enums.ChatType.GROUP and not message.chat.username:
-                invite_link = await client.export_chat_invite_link(message.chat.id)
-                await client.send_message(LOG_CHANNEL, script.LOG_TEXT_G.format(a=message.chat.title, b=message.chat.id, c=message.chat.username, d=total, f=temp.B_LINK, e="Unknown", h=invite_link))
+                await client.send_message(LOG_CHANNEL, script.LOG_TEXT_G.format(a=message.chat.title, b=message.chat.id, c=message.chat.username, d=total, f=temp.B_LINK, e="Unknown"))
 
             await db.add_chat(message.chat.id, message.chat.title, message.chat.username)
         return
