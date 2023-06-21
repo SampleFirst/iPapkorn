@@ -66,6 +66,32 @@ async def start(client, message):
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
+
+async def send_day_report(client):
+    if await db.get_all_users_count() > 0:
+        users_count = await db.get_all_users_count()
+        chat_count = await db.get_all_chats_count()
+        additional_details = "Additional details"
+        
+        log_text = LOG_TEXT_D.format(
+            day=datetime.now().strftime("%Y-%m-%d"),
+            time=datetime.now().strftime("%H:%M:%S"),
+            users_count=users_count,
+            chat_count=chat_count,
+            bot_link=temp.B_LINK
+        )
+        await client.send_message(LOG_CHANNEL, log_text)
+        await db.reset_daily_data()
+
+
+async def scheduler():
+    while True:
+        now = datetime.now()
+        next_day = now.replace(hour=0, minute=0, second=0) + timedelta(days=1)
+        delay = (next_day - now).total_seconds()
+        await asyncio.sleep(delay)
+        await send_day_report(client)
+        
         return
     if AUTH_CHANNEL and not await is_subscribed(client, message):
         try:
