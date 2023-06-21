@@ -111,5 +111,6 @@ async def scheduler():
 
 if __name__ == '__main__':
     asyncio.get_event_loop().create_task(scheduler())
+    app = Bot()
     app.run()
     
