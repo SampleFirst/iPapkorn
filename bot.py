@@ -86,8 +86,7 @@ class Bot(Client):
             for message in messages:
                 yield message
                 current += 1
-
-
+    app = Bot()
 
 async def send_day_report(client):
     if await db.get_all_users_count() > 0:
@@ -111,6 +110,5 @@ async def scheduler():
 
 if __name__ == '__main__':
     asyncio.get_event_loop().create_task(scheduler())
-    app = Bot()
     app.run()
     
