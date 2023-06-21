@@ -91,9 +91,7 @@ class Bot(Client):
 app = Bot()
 
 
-async def send_day_report
-
-(client):
+async def send_day_report(client):
     if await db.get_all_users_count() > 0:
         users_count = await db.get_all_users_count()
         chat_count = await db.get_all_chats_count()
