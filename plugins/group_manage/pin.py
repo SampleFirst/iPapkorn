@@ -1,10 +1,9 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from plugins.helper.admin_check import admin_filter
+from plugins.helper.admin_check import admin_check
 
 
-
-@Client.on_message(filters.command("pin") & admin_fliter)
+@Client.on_message(filters.command("pin") & admin_filter)
 async def pin_command(client: Client, message: Message):
     if not message.reply_to_message:
         await message.reply_text("Please reply to a message to pin.")
@@ -20,7 +19,7 @@ async def pin_command(client: Client, message: Message):
         await message.reply_text(f"An error occurred while pinning the message: {e}")
 
 
-@Client.on_message(filters.command("unpin") & admin_fliter)
+@Client.on_message(filters.command("unpin") & admin_filter)
 async def unpin_command(client: Client, message: Message):
     if not message.reply_to_message:
         await message.reply_text("Please reply to a message to unpin.")
@@ -34,4 +33,3 @@ async def unpin_command(client: Client, message: Message):
         await message.reply_text("Successfully unpinned the message.")
     except Exception as e:
         await message.reply_text(f"An error occurred while unpinning the message: {e}")
-
