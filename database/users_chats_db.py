@@ -71,11 +71,10 @@ class Database:
 
     async def get_all_users(self):
         return self.col.find({})
-    
 
     async def delete_user(self, user_id):
         await self.col.delete_many({'id': int(user_id)})
-
+        
     async def delete_chat(self, chat_id):
         await self.grp.delete_many({'id': int(chat_id)})
 
@@ -145,5 +144,9 @@ class Database:
     async def get_db_size(self):
         return (await self.db.command("dbstats"))['dataSize']
 
+    async def get_blocked_users(self):
+        users = self.col.find({'ban_status.is_banned': True})
+        blocked_users = [user['id'] async for user in users]
+        return blocked_users
 
 db = Database(DATABASE_URI, DATABASE_NAME)
