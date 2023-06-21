@@ -10,7 +10,7 @@ from info import SESSION, API_ID, API_HASH, BOT_TOKEN, LOG_CHANNEL, PORT, WEBHOO
 from utils import temp
 from typing import Union, Optional, AsyncGenerator
 from pyrogram import types
-from datetime import datetime
+from datetime import datetime, timedelta
 from pytz import timezone
 from pyrogram.errors import BadRequest, Unauthorized
 
@@ -86,7 +86,7 @@ class Bot(Client):
             for message in messages:
                 yield message
                 current += 1
-    app = Bot()
+
 
 async def send_day_report(client):
     if await db.get_all_users_count() > 0:
@@ -109,6 +109,6 @@ async def scheduler():
 
 
 if __name__ == '__main__':
+    app = Bot()
     asyncio.get_event_loop().create_task(scheduler())
     app.run()
-    
