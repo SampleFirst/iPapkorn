@@ -88,8 +88,6 @@ class Bot(Client):
                 current += 1
 
 
-app = Bot()
-
 
 async def send_day_report(client):
     if await db.get_all_users_count() > 0:
