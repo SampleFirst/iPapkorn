@@ -55,8 +55,9 @@ RemoveBG_API = environ.get("RemoveBG_API", "taF9K5WQVgN3tdsnjuYhg7EN")
 WELCOM_PIC = environ.get("WELCOM_PIC", "")
 WELCOM_TEXT = environ.get("WELCOM_TEXT", "Hai {user}\nwelcome to {chat}\n\nPlease Join Updates Channel to use this Bot!")
 PMFILTER = is_enabled(environ.get('PMFILTER', "True"), True)
-G_FILTER = bool(environ.get("G_FILTER", True))
+G_FILTER = is_enabled(environ.get("G_FILTER", "True"), True)
 BUTTON_LOCK = is_enabled(environ.get("BUTTON_LOCK", "True"), True)
+
 # url shortner
 SHORT_URL = environ.get("SHORT_URL")
 SHORT_API = environ.get("SHORT_API")
@@ -81,6 +82,3 @@ MELCOW_NEW_USERS = is_enabled(environ.get('MELCOW_NEW_USERS', "True"), True)
 PROTECT_CONTENT = is_enabled(environ.get('PROTECT_CONTENT', "False"), False)
 PUBLIC_FILE_STORE = is_enabled(environ.get('PUBLIC_FILE_STORE', "True"), True)
 
-#request force sub
-REQ_SUB = bool(environ.get("REQ_SUB", True))
-SESSION_STRING = environ.get("SESSION_STRING", "")
