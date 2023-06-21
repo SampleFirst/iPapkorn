@@ -13,8 +13,8 @@ class Database:
 
     def new_user(self, id, name):
         return dict(
-            id=id,
-            name=name,
+            id = id,
+            name = name,
             ban_status=dict(
                 is_banned=False,
                 ban_reason="",
@@ -22,12 +22,11 @@ class Database:
         )
 
 
-    def new_group(self, id, title, username, invite_link):
+    def new_group(self, id, title, username):
         return dict(
-            id=id,
-            title=title,
-            username=username,
-            invite_link=invite_link,
+            id = id,
+            title = title,
+            username = username,
             chat_status=dict(
                 is_disabled=False,
                 reason="",
@@ -39,7 +38,7 @@ class Database:
         await self.col.insert_one(user)
     
     async def is_user_exist(self, id):
-        user = await self.col.find_one({'id': int(id)})
+        user = await self.col.find_one({'id':int(id)})
         return bool(user)
     
     async def total_users_count(self):
@@ -65,7 +64,7 @@ class Database:
             is_banned=False,
             ban_reason=''
         )
-        user = await self.col.find_one({'id': int(id)})
+        user = await self.col.find_one({'id':int(id)})
         if not user:
             return default
         return user.get('ban_status', default)
@@ -89,13 +88,13 @@ class Database:
     
 
 
-    async def add_chat(self, chat, title, username, invite_link):
-        chat = self.new_group(chat, title, username, invite_link)
+    async def add_chat(self, chat, title, username):
+        chat = self.new_group(chat, title, username)
         await self.grp.insert_one(chat)
     
 
     async def get_chat(self, chat):
-        chat = await self.grp.find_one({'id': int(chat)})
+        chat = await self.grp.find_one({'id':int(chat)})
         return False if not chat else chat.get('chat_status')
     
 
@@ -103,7 +102,7 @@ class Database:
         chat_status=dict(
             is_disabled=False,
             reason="",
-        )
+            )
         await self.grp.update_one({'id': int(id)}, {'$set': {'chat_status': chat_status}})
         
     async def update_settings(self, id, settings):
@@ -120,7 +119,7 @@ class Database:
             'welcome': MELCOW_NEW_USERS,
             'template': IMDB_TEMPLATE            
         }
-        chat = await self.grp.find_one({'id': int(id)})
+        chat = await self.grp.find_one({'id':int(id)})
         if chat:
             return chat.get('settings', default)
         return default
@@ -130,7 +129,7 @@ class Database:
         chat_status=dict(
             is_disabled=True,
             reason=reason,
-        )
+            )
         await self.grp.update_one({'id': int(chat)}, {'$set': {'chat_status': chat_status}})
     
 
