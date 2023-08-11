@@ -42,3 +42,4 @@ wheel
 ujson
 wget
 pytz
+httpcore
